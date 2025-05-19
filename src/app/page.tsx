@@ -241,11 +241,23 @@ export default function Home() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  setGameState((prev) => ({
-                    ...prev,
-                    gameStarted: false,
-                    winner: null,
-                  }));
+                  if (gameState.winner) {
+                    setGameState({
+                      board: initializeGame(rows, cols),
+                      currentTurn: "white",
+                      selectedPiece: null,
+                      possibleMoves: [],
+                      gameStarted: true,
+                      winner: null,
+                      lastMove: null,
+                    });
+                  } else {
+                    setGameState((prev) => ({
+                      ...prev,
+                      gameStarted: false,
+                      winner: null,
+                    }));
+                  }
                 }}
               >
                 {gameState.winner ? "Novo Jogo" : "Voltar"}
