@@ -55,6 +55,47 @@ export default function Home() {
     }
   }, [gameState.lastMove]);
 
+  // Selecionar automaticamente uma peça quando o turno mudar
+  React.useEffect(() => {
+    if (gameState.gameStarted && !gameState.winner) {
+      // Seleciona uma peça automaticamente quando o turno muda
+      selectFirstAvailablePiece();
+    }
+  }, [gameState.currentTurn, gameState.gameStarted, gameState.winner]);
+
+  // Função que seleciona a primeira peça disponível do turno atual
+  const selectFirstAvailablePiece = () => {
+    if (!gameState.gameStarted || gameState.winner) return;
+
+    const currentTurn = gameState.currentTurn;
+
+    // Procura a primeira peça disponível da cor do turno atual
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const cell = gameState.board[row][col];
+        if (cell.piece && cell.piece.color === currentTurn) {
+          const position = { row, col };
+          const possibleMoves = getPossibleMoves(
+            gameState.board,
+            position,
+            rows,
+            cols
+          );
+
+          // Só seleciona se a peça tiver movimentos possíveis
+          if (possibleMoves.length > 0) {
+            setGameState((prev) => ({
+              ...prev,
+              selectedPiece: position,
+              possibleMoves,
+            }));
+            return;
+          }
+        }
+      }
+    }
+  };
+
   const handleApplyDimensions = () => {
     const numRows = parseInt(inputRows, 10);
     const numCols = parseInt(inputCols, 10);
@@ -230,12 +271,6 @@ export default function Home() {
         )}
 
         <div className="flex flex-col items-center">
-          {gameState.gameStarted && !gameState.winner && (
-            <div className="mb-4 p-3 bg-blue-800 bg-opacity-80 text-white rounded-lg shadow-lg">
-              Vez das peças:{" "}
-              {gameState.currentTurn === "white" ? "Brancas" : "Pretas"}
-            </div>
-          )}
           {!gameState.gameStarted && !gameState.winner ? (
             <div className="flex justify-between items-center w-[658px]">
               <div className="bg-transparent backdrop-blur-sm border border-[#5A5A5E] rounded-lg shadow-xl flex flex-col sm:flex-row items-center min-h-10">
