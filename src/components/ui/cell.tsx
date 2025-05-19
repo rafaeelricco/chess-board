@@ -19,44 +19,45 @@ const Cell: React.FC<CellProps> = ({
   className = "",
   style,
 }) => {
-  const [internalShowLastMove, setInternalShowLastMove] = React.useState(false);
-  const [isFadingOut, setIsFadingOut] = React.useState(false);
+  const [shouldRenderHighlightSvg, setShouldRenderHighlightSvg] =
+    React.useState(false);
+  const [isFadingOutHighlight, setIsFadingOutHighlight] = React.useState(false);
 
   React.useEffect(() => {
     if (propIsLastMove) {
-      setInternalShowLastMove(true);
-      setIsFadingOut(false);
-    } else if (internalShowLastMove) {
-      setIsFadingOut(true);
-      const timer = setTimeout(() => {
-        setInternalShowLastMove(false);
-        setIsFadingOut(false);
-      }, 500);
-      return () => clearTimeout(timer);
+      setShouldRenderHighlightSvg(true);
+      setIsFadingOutHighlight(false); // Garante opacidade total no início
+    } else {
+      // Se a prop mudou para false e o SVG estava sendo renderizado, iniciar fade-out
+      if (shouldRenderHighlightSvg) {
+        setIsFadingOutHighlight(true); // Aplica opacity-0, iniciando a transição CSS
+        const timer = setTimeout(() => {
+          setShouldRenderHighlightSvg(false); // Remove o SVG do DOM após a transição
+          // Não é estritamente necessário resetar isFadingOutHighlight aqui se o SVG é removido,
+          // mas pode ser bom para clareza se a célula for re-destacada rapidamente.
+          // setIsFadingOutHighlight(false);
+        }, 450); // Duração da transição CSS (Tailwind `duration-1000`)
+        return () => clearTimeout(timer);
+      }
     }
-  }, [propIsLastMove]);
+  }, [propIsLastMove, shouldRenderHighlightSvg]);
 
   const renderSvgBackground = () => {
+    const highlightBaseClasses =
+      "absolute inset-0 transition-opacity duration-1000 ease-linear";
+    const highlightOpacityClass = isFadingOutHighlight
+      ? "opacity-0"
+      : "opacity-100";
+    const combinedHighlightClasses = `${highlightBaseClasses} ${highlightOpacityClass}`;
+
     if (isDark) {
-      if (internalShowLastMove) {
-        return (
-          <DarkLastMoveSvg
-            className={`transition-opacity duration-500 ease-out ${
-              isFadingOut ? "opacity-0" : "opacity-100"
-            }`}
-          />
-        );
+      if (shouldRenderHighlightSvg) {
+        return <DarkLastMoveSvg className={combinedHighlightClasses} />;
       }
       return isActive ? <DarkActiveSvg /> : <DarkActiveOffSvg />;
     } else {
-      if (internalShowLastMove) {
-        return (
-          <LightLastMoveSvg
-            className={`transition-opacity duration-500 ease-out ${
-              isFadingOut ? "opacity-0" : "opacity-100"
-            }`}
-          />
-        );
+      if (shouldRenderHighlightSvg) {
+        return <LightLastMoveSvg className={combinedHighlightClasses} />;
       }
       return isActive ? <LightActiveSvg /> : <LightActiveOffSvg />;
     }
@@ -166,7 +167,7 @@ const DarkLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
       viewBox="0 0 72 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`absolute inset-0 ${className || ""}`}
+      className={className}
       {...props}
     >
       <g clipPath="url(#clipDarkLastMove)">
@@ -281,7 +282,7 @@ const LightLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
       viewBox="0 0 72 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`absolute inset-0 ${className || ""}`}
+      className={className}
       {...props}
     >
       <g clipPath="url(#clipLightLastMove)">

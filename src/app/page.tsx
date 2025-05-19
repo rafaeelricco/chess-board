@@ -37,13 +37,15 @@ export default function Home() {
   // Limpar destaques depois de 3 segundos
   React.useEffect(() => {
     if (gameState.lastMove) {
+      // Timer mais longo para dar um sinal visual mais claro
       const timer = setTimeout(() => {
+        // Aplicar limpeza do destaque
         setGameState((prev) => ({
           ...prev,
           board: clearHighlights(prev.board),
           lastMove: null,
         }));
-      }, 3000);
+      }, 3000); // Mantém 3 segundos conforme requisitos
 
       return () => clearTimeout(timer);
     }
