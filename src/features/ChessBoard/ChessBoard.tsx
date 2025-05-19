@@ -1,4 +1,5 @@
 import React from "react";
+import Cell from "../../components/ui/cell"; // Importado o componente Cell
 
 interface ChessBoardProps {
   rows: number;
@@ -15,13 +16,6 @@ const ChessBoard: React.FC<ChessBoardProps> = ({
   const files = Array.from({ length: cols }, (_, i) =>
     String.fromCharCode(65 + i)
   ); // Colunas (X)
-
-  const getSquareColor = (rowIndex: number, colIndex: number): string => {
-    // Alterna as cores das casas
-    return (rowIndex + colIndex) % 2 === 0
-      ? "bg-neutral-200"
-      : "bg-neutral-600";
-  };
 
   const cellWidth = boardPixelSize / cols;
   const cellHeight = boardPixelSize / rows;
@@ -69,16 +63,14 @@ const ChessBoard: React.FC<ChessBoardProps> = ({
         >
           {ranks.map((rank, rowIndex) =>
             files.map((file, colIndex) => (
-              <div
+              <Cell
                 key={`${file}${rank}`}
-                className={`flex items-center justify-center ${getSquareColor(
-                  rowIndex,
-                  colIndex
-                )}`}
+                isDark={(rowIndex + colIndex) % 2 !== 0} // Se a soma é ímpar, a célula é escura
+                isActive={false} // Estado ativo será implementado depois
                 style={{ width: `${cellWidth}px`, height: `${cellHeight}px` }}
               >
                 {/* Futuramente: <span className="text-xs text-neutral-400 select-none">{`${file}${rank}`}</span> */}
-              </div>
+              </Cell>
             ))
           )}
         </div>
