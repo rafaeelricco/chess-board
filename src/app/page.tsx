@@ -190,51 +190,58 @@ export default function Home() {
             </div>
           )}
           {!gameState.gameStarted ? (
-            <div className="flex justify-between items-center">
-              <div className="bg-transparent border border-[#8A8A8B] rounded-lg shadow-xl flex flex-col sm:flex-row items-center gap-4 px-3 py-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-[#5A5A5E]">
-                    Scale
-                  </span>
-                  <label
-                    htmlFor="rowsInput"
-                    className="text-sm font-semibold text-white"
-                  >
-                    Y
-                  </label>
-                  <input
-                    id="rowsInput"
-                    type="number"
-                    value={inputRows}
-                    onChange={(e) => setInputRows(e.target.value)}
-                    className="w-20 p-2 border border-neutral-600 rounded-md bg-neutral-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    min="6"
-                    max="12"
+            <div className="flex justify-between items-center w-[658px]">
+              <div className="bg-transparent backdrop-blur-sm border border-[#5A5A5E] rounded-lg shadow-xl flex flex-col sm:flex-row items-center min-h-10">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-[#5A5A5E] px-2">
+                      Scale
+                    </span>
+                    <label
+                      htmlFor="rowsInput"
+                      className="text-sm font-semibold text-white"
+                    >
+                      Y
+                    </label>
+                    <input
+                      id="rowsInput"
+                      type="number"
+                      value={inputRows}
+                      onChange={(e) => setInputRows(e.target.value)}
+                      className="w-16 p-2 py-0.5 border border-neutral-600 rounded-md bg-transparent text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      min="6"
+                      max="12"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label
+                      htmlFor="colsInput"
+                      className="text-sm font-semibold text-white"
+                    >
+                      X
+                    </label>
+                    <input
+                      id="colsInput"
+                      type="number"
+                      value={inputCols}
+                      onChange={(e) => setInputCols(e.target.value)}
+                      className="w-16 p-2 py-0.5 border border-neutral-600 rounded-md bg-transparent text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      min="6"
+                      max="12"
+                    />
+                  </div>
+                </div>
+                <div className="h-10 pl-2">
+                  <Separator
+                    orientation="vertical"
+                    className="h-full bg-[#5A5A5E]"
                   />
                 </div>
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="colsInput"
-                    className="text-sm font-semibold text-white"
-                  >
-                    X
-                  </label>
-                  <input
-                    id="colsInput"
-                    type="number"
-                    value={inputCols}
-                    onChange={(e) => setInputCols(e.target.value)}
-                    className="w-20 p-2 border border-neutral-600 rounded-md bg-neutral-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    min="6"
-                    max="12"
-                  />
-                </div>
-                <Separator
-                  orientation="vertical"
-                  className="h-full w-px bg-[#C9C9C9]"
-                />
-                <button onClick={handleApplyDimensions} className="">
-                  <Check className="w-4 h-4" />
+                <button
+                  onClick={handleApplyDimensions}
+                  className="bg-transparent px-4"
+                >
+                  <Check className="w-4 h-4 text-[#c9c9c9]" />
                 </button>
               </div>
               {error && (
