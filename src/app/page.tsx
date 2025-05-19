@@ -16,6 +16,8 @@ import {
 import { GameState, Position } from "@/features/ChessBoard/types";
 import { Check } from "lucide-react";
 
+const TARGET_CELL_SIZE = 96; // Define o tamanho desejado para cada célula
+
 export default function Home() {
   const [rows, setRows] = React.useState(8);
   const [cols, setCols] = React.useState(8);
@@ -138,6 +140,9 @@ export default function Home() {
     }));
   };
 
+  const boardDisplayWidth = cols * TARGET_CELL_SIZE;
+  const boardDisplayHeight = rows * TARGET_CELL_SIZE;
+
   return (
     <React.Fragment>
       <div className="grid gap-4 place-items-center h-screen content-center">
@@ -151,6 +156,8 @@ export default function Home() {
         <ChessBoard
           rows={rows}
           cols={cols}
+          boardWidth={boardDisplayWidth}
+          boardHeight={boardDisplayHeight}
           board={gameState.board}
           gameStarted={gameState.gameStarted}
           currentTurn={gameState.currentTurn}
@@ -172,7 +179,7 @@ export default function Home() {
             </div>
           )}
           {!gameState.gameStarted ? (
-            <React.Fragment>
+            <div className="flex justify-between items-center">
               <div className="bg-transparent border border-[#8A8A8B] rounded-lg shadow-xl flex flex-col sm:flex-row items-center gap-4 px-3 py-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-[#5A5A5E]">
@@ -227,7 +234,7 @@ export default function Home() {
               <Button variant="outline" onClick={handleStartGame}>
                 Play
               </Button>
-            </React.Fragment>
+            </div>
           ) : (
             <div className="flex gap-4">
               {!gameState.winner && (

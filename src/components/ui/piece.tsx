@@ -7,7 +7,7 @@ interface PieceProps {
   size?: number;
 }
 
-const Piece: React.FC<PieceProps> = ({ piece, size = 50 }) => {
+const Piece: React.FC<PieceProps> = ({ piece, size = 42 }) => {
   const { type, color, selected } = piece;
 
   return (

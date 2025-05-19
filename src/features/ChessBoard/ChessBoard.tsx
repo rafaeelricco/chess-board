@@ -7,7 +7,8 @@ import { Board, Position } from "./types";
 interface ChessBoardProps {
   rows: number;
   cols: number;
-  boardPixelSize?: number;
+  boardWidth: number;
+  boardHeight: number;
   board: Board;
   gameStarted: boolean;
   currentTurn: "white" | "black";
@@ -20,7 +21,8 @@ interface ChessBoardProps {
 export const ChessBoard: React.FC<ChessBoardProps> = ({
   rows,
   cols,
-  boardPixelSize = 564,
+  boardWidth,
+  boardHeight,
   board,
   gameStarted,
   currentTurn,
@@ -33,9 +35,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const columnLetters = Array.from({ length: cols }, (_, i) =>
     String.fromCharCode(65 + i)
   );
-
-  const cellWidth = boardPixelSize / cols;
-  const cellHeight = boardPixelSize / rows;
 
   const handleCellClick = (rowIndex: number, colIndex: number) => {
     if (!gameStarted) return;
@@ -76,8 +75,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         className="grid gap-0 rounded-sm overflow-hidden"
         style={{
           gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-          width: `${boardPixelSize}px`,
-          height: `${boardPixelSize}px`,
+          gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
+          width: `${boardWidth}px`,
+          height: `${boardHeight}px`,
         }}
       >
         {rowNumbers.map((rowNumber, rowIndex) =>
@@ -95,7 +95,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 isDark={(rowIndex + colIndex) % 2 !== 0}
                 isActive={isSelected}
                 isLastMove={isLastMove}
-                style={{ width: `${cellWidth}px`, height: `${cellHeight}px` }}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >
                 {colIndex === 0 && (
@@ -111,7 +110,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 {cell.piece && (
                   <Piece
                     piece={{ ...cell.piece, selected: isSelected }}
-                    size={Math.min(cellWidth, cellHeight) * 0.8}
+                    size={(boardWidth / cols) * 0.6}
                   />
                 )}
                 {isHighlighted && (
