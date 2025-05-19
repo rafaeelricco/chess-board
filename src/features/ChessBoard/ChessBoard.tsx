@@ -22,9 +22,9 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const cellHeight = boardPixelSize / rows;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="border border-[#565556] p-2 rounded-lg">
       <div
-        className="grid gap-0 border border-neutral-800 dark:border-neutral-200"
+        className="grid gap-0 rounded-sm overflow-hidden"
         style={{
           gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
           width: `${boardPixelSize}px`,
@@ -40,12 +40,12 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
               style={{ width: `${cellWidth}px`, height: `${cellHeight}px` }}
             >
               {colIndex === 0 && (
-                <span className="absolute top-0 left-0 pt-0.5 pl-1 text-xs text-neutral-500 dark:text-neutral-400 select-none opacity-50">
+                <span className="absolute top-2 left-2 pt-0.5 pl-1 text-xs text-neutral-500 dark:text-neutral-400 select-none">
                   {rowNumber}
                 </span>
               )}
               {rowIndex === rows - 1 && (
-                <span className="absolute bottom-0 right-0 pb-0.5 pr-1 text-xs text-neutral-500 dark:text-neutral-400 select-none opacity-50">
+                <span className="absolute bottom-0 right-0 pb-0.5 pr-1 text-xs text-neutral-500 dark:text-neutral-400 select-none">
                   {columnLetter}
                 </span>
               )}
