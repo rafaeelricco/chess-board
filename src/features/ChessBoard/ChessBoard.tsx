@@ -71,7 +71,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   };
 
   return (
-    <div className="border-2 border-[#565556] p-2 rounded-lg">
+    <div className="border border-[#565556] p-2 rounded-lg">
       <div
         className="grid gap-0 rounded-sm overflow-hidden"
         style={{
@@ -94,7 +94,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
               <Cell
                 key={`${columnLetter}${rowNumber}`}
                 isDark={(rowIndex + colIndex) % 2 !== 0}
-                isActive={isSelected || isHighlighted}
+                isActive={isSelected}
                 isLastMove={isLastMove}
                 style={{ width: `${cellWidth}px`, height: `${cellHeight}px` }}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
@@ -113,6 +113,16 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   <Piece
                     piece={{ ...cell.piece, selected: isSelected }}
                     size={Math.min(cellWidth, cellHeight) * 0.8}
+                  />
+                )}
+                {isHighlighted && (
+                  <div
+                    className="absolute w-6 h-6 rounded-full bg-[#FF9F47] opacity-75 pointer-events-none"
+                    style={{
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
                   />
                 )}
               </Cell>
