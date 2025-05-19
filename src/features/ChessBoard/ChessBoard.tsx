@@ -98,12 +98,12 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >
                 {colIndex === 0 && (
-                  <span className="absolute top-2 left-2 pt-0.5 pl-1 text-xs text-neutral-500 dark:text-neutral-400 select-none">
+                  <span className="absolute top-2 left-2 pt-0.5 pl-1 text-xs text-white select-none">
                     {rowNumber}
                   </span>
                 )}
                 {rowIndex === rows - 1 && (
-                  <span className="absolute bottom-0 right-0 pb-0.5 pr-1 text-xs text-neutral-500 dark:text-neutral-400 select-none">
+                  <span className="absolute bottom-0 right-0 pb-0.5 pr-1 text-xs text-white select-none">
                     {columnLetter}
                   </span>
                 )}
