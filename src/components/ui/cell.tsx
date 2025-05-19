@@ -140,7 +140,7 @@ const DarkLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
         <path fill="url(#darkLastMoveGradient)" d="M0 0H72V72H0z" />
         <path
           opacity={0.6}
-          fill="#4CAF50"
+          fill="#FF9F47"
           fillOpacity={0.25}
           d="M0 0H72V72H0z"
         />
@@ -264,7 +264,7 @@ const LightLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
         />
         <path
           opacity={0.6}
-          fill="#4CAF50"
+          fill="#FF9F47"
           fillOpacity={0.3}
           d="M0 0H72V72H0z"
         />

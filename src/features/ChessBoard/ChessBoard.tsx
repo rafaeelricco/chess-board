@@ -82,7 +82,6 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
       >
         {rowNumbers.map((rowNumber, rowIndex) =>
           columnLetters.map((columnLetter, colIndex) => {
-            const cellPosition = { row: rowIndex, col: colIndex };
             const cell = board[rowIndex][colIndex];
             const isSelected =
               selectedPiece?.row === rowIndex &&
