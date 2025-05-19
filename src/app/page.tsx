@@ -4,6 +4,7 @@ import Link from "next/link";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { ChessBoard } from "@/features/ChessBoard/ChessBoard";
 import {
   checkWinner,
@@ -13,6 +14,7 @@ import {
   movePiece,
 } from "@/features/ChessBoard/gameLogic";
 import { GameState, Position } from "@/features/ChessBoard/types";
+import { Check } from "lucide-react";
 
 export default function Home() {
   const [rows, setRows] = React.useState(8);
@@ -39,6 +41,7 @@ export default function Home() {
         setGameState((prev) => ({
           ...prev,
           board: clearHighlights(prev.board),
+          lastMove: null,
         }));
       }, 3000);
 
@@ -168,13 +171,16 @@ export default function Home() {
           )}
           {!gameState.gameStarted ? (
             <React.Fragment>
-              <div className="mb-6 p-4 bg-neutral-800 bg-opacity-70 rounded-lg shadow-xl flex flex-col sm:flex-row items-center gap-4">
+              <div className="bg-transparent border border-[#8A8A8B] rounded-lg shadow-xl flex flex-col sm:flex-row items-center gap-4 px-3 py-1.5">
                 <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-[#5A5A5E]">
+                    Scale
+                  </span>
                   <label
                     htmlFor="rowsInput"
-                    className="text-sm font-medium text-neutral-200"
+                    className="text-sm font-semibold text-white"
                   >
-                    Linhas (Y):
+                    Y
                   </label>
                   <input
                     id="rowsInput"
@@ -189,9 +195,9 @@ export default function Home() {
                 <div className="flex items-center gap-2">
                   <label
                     htmlFor="colsInput"
-                    className="text-sm font-medium text-neutral-200"
+                    className="text-sm font-semibold text-white"
                   >
-                    Colunas (X):
+                    X
                   </label>
                   <input
                     id="colsInput"
@@ -203,11 +209,12 @@ export default function Home() {
                     max="12"
                   />
                 </div>
-                <button
-                  onClick={handleApplyDimensions}
-                  className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                  Aplicar Escala
+                <Separator
+                  orientation="vertical"
+                  className="h-full w-px bg-[#C9C9C9]"
+                />
+                <button onClick={handleApplyDimensions} className="">
+                  <Check className="w-4 h-4" />
                 </button>
               </div>
               {error && (

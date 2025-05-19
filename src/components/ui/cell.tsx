@@ -19,26 +19,22 @@ const Cell: React.FC<CellProps> = ({
   className = "",
   style,
 }) => {
-  const [internalShowLastMove, setInternalShowLastMove] = React.useState(
-    propIsLastMove || false
-  );
+  const [internalShowLastMove, setInternalShowLastMove] = React.useState(false);
   const [isFadingOut, setIsFadingOut] = React.useState(false);
 
   React.useEffect(() => {
     if (propIsLastMove) {
       setInternalShowLastMove(true);
       setIsFadingOut(false);
-    } else {
-      if (internalShowLastMove && !isFadingOut) {
-        setIsFadingOut(true);
-        const timer = setTimeout(() => {
-          setInternalShowLastMove(false);
-          setIsFadingOut(false);
-        }, 500);
-        return () => clearTimeout(timer);
-      }
+    } else if (internalShowLastMove) {
+      setIsFadingOut(true);
+      const timer = setTimeout(() => {
+        setInternalShowLastMove(false);
+        setIsFadingOut(false);
+      }, 500);
+      return () => clearTimeout(timer);
     }
-  }, [propIsLastMove, internalShowLastMove, isFadingOut]);
+  }, [propIsLastMove]);
 
   const renderSvgBackground = () => {
     if (isDark) {
@@ -175,12 +171,7 @@ const DarkLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
     >
       <g clipPath="url(#clipDarkLastMove)">
         <path fill="url(#darkLastMoveGradient)" d="M0 0H72V72H0z" />
-        <path
-          opacity={0.6}
-          fill="#FF9F47"
-          fillOpacity={0.25}
-          d="M0 0H72V72H0z"
-        />
+        <path fill="#FF9F47" fillOpacity={0.1} d="M0 0H72V72H0z" />
       </g>
       <defs>
         <linearGradient
@@ -299,12 +290,7 @@ const LightLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
           fillOpacity={0.5}
           d="M0 0H72V72H0z"
         />
-        <path
-          opacity={0.6}
-          fill="#FF9F47"
-          fillOpacity={0.3}
-          d="M0 0H72V72H0z"
-        />
+        <path fill="#FF9F47" fillOpacity={0.15} d="M0 0H72V72H0z" />
       </g>
       <defs>
         <linearGradient
