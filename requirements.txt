@@ -1,0 +1,45 @@
+# Unvoid Chess Game - Requisitos
+
+## 1. Tabuleiro
+- Dimensões customizáveis entre 6x6 e 12x12 quadrados
+- Exemplos permitidos: 6x6, 6x8, 6x12, 12x12, 10x7
+- Exemplos não permitidos: 13x6, 5x6
+
+## 2. Peças
+
+### Developer
+- **Movimento:** 
+  - Pode pular até 3 casas por turno
+  - Pode se mover em qualquer direção (vertical, horizontal ou diagonal)
+- **Captura:**
+  - Captura outras peças pulando sobre elas
+  - Não pode pular para casas já ocupadas
+
+### Designer
+- **Movimento:**
+  - Move-se em formato de "L" (similar ao cavalo no xadrez tradicional)
+- **Captura:**
+  - Captura outras peças movendo-se sobre elas
+
+### Product Owner
+- **Movimento:**
+  - Move-se uma casa por turno
+  - Pode se mover em qualquer direção (vertical, horizontal ou diagonal)
+- **Captura:**
+  - Captura outras peças movendo-se sobre elas
+
+## 3. Posição Inicial das Peças
+
+### Peças Pretas
+- **Product Owner:** Canto superior direito
+- **Developer:** À esquerda do Product Owner preto
+- **Designer:** À esquerda do Developer preto
+
+### Peças Brancas
+- **Product Owner:** Canto inferior esquerdo
+- **Developer:** À direita do Product Owner branco
+- **Designer:** À direita do Developer branco
+
+## 4. Regras do Jogo
+- O primeiro turno é das peças brancas
+- Para vencer, é necessário capturar o "Product Owner" adversário
