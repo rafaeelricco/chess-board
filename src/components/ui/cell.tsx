@@ -31,7 +31,7 @@ const Cell: React.FC<CellProps> = ({
 
   return (
     <div
-      className={`flex items-center justify-center ${className}`}
+      className={`relative flex items-center justify-center ${className}`}
       style={{
         backgroundImage,
         backgroundSize: "cover",
