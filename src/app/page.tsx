@@ -143,11 +143,6 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-
-        <h1 className="text-3xl font-bold text-white mb-4">
-          Unvoid Chess Game
-        </h1>
-
         <ChessBoard
           rows={rows}
           cols={cols}
@@ -172,7 +167,7 @@ export default function Home() {
             </div>
           )}
           {!gameState.gameStarted ? (
-            <>
+            <React.Fragment>
               <div className="mb-6 p-4 bg-neutral-800 bg-opacity-70 rounded-lg shadow-xl flex flex-col sm:flex-row items-center gap-4">
                 <div className="flex items-center gap-2">
                   <label
@@ -223,7 +218,7 @@ export default function Home() {
               <Button variant="outline" onClick={handleStartGame}>
                 Play
               </Button>
-            </>
+            </React.Fragment>
           ) : (
             <div className="flex gap-4">
               {!gameState.winner && (

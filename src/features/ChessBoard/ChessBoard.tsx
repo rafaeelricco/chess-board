@@ -71,7 +71,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   };
 
   return (
-    <div className="border border-[#565556] p-2 rounded-lg">
+    <div className="border-2 border-[#565556] p-2 rounded-lg">
       <div
         className="grid gap-0 rounded-sm overflow-hidden"
         style={{
