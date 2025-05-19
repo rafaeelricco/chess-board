@@ -11,6 +11,7 @@ export interface Cell {
   piece: Piece | null;
   position: Position;
   isHighlighted?: boolean;
+  lastMoveHighlight?: boolean;
 }
 
 export interface Position {
@@ -27,4 +28,5 @@ export interface GameState {
   possibleMoves: Position[];
   gameStarted: boolean;
   winner: PieceColor | null;
+  lastMove: { from: Position; to: Position } | null;
 }

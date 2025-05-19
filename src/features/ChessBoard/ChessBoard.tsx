@@ -88,12 +88,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
               selectedPiece?.row === rowIndex &&
               selectedPiece?.col === colIndex;
             const isHighlighted = isPossibleMove(rowIndex, colIndex);
+            const isLastMove = cell.lastMoveHighlight;
 
             return (
               <Cell
                 key={`${columnLetter}${rowNumber}`}
                 isDark={(rowIndex + colIndex) % 2 !== 0}
                 isActive={isSelected || isHighlighted}
+                isLastMove={isLastMove}
                 style={{ width: `${cellWidth}px`, height: `${cellHeight}px` }}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >

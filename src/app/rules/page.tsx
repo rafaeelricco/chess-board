@@ -55,8 +55,12 @@ export default function RulesPage() {
               </ul>
               <p className="mb-2 font-semibold">Captura:</p>
               <ul className="list-disc pl-6">
-                <li>Captura outras peças pulando sobre elas</li>
-                <li>Não pode pular para casas já ocupadas</li>
+                <li>Captura outras peças movendo-se sobre elas</li>
+                <li>Não pode pular para casas já ocupadas pela mesma cor</li>
+                <li>
+                  Não pode continuar o movimento após encontrar uma peça no
+                  caminho
+                </li>
               </ul>
             </div>
           </div>
@@ -83,6 +87,7 @@ export default function RulesPage() {
               <p className="mb-2 font-semibold">Captura:</p>
               <ul className="list-disc pl-6">
                 <li>Captura outras peças movendo-se sobre elas</li>
+                <li>Por mover-se em "L", pode pular sobre peças no caminho</li>
               </ul>
             </div>
           </div>
@@ -110,6 +115,9 @@ export default function RulesPage() {
               <p className="mb-2 font-semibold">Captura:</p>
               <ul className="list-disc pl-6">
                 <li>Captura outras peças movendo-se sobre elas</li>
+                <li>
+                  É a peça mais importante - se for capturada, o jogo termina
+                </li>
               </ul>
             </div>
           </div>
@@ -137,14 +145,58 @@ export default function RulesPage() {
           </div>
         </div>
 
-        <div className="p-6 bg-gray-800 rounded-lg">
+        <div className="mb-10 p-6 bg-gray-800 rounded-lg">
           <h2 className="text-2xl font-bold mb-4">Regras do Jogo</h2>
           <ul className="list-disc pl-6">
             <li>O primeiro turno é das peças brancas</li>
             <li>
               Para vencer, é necessário capturar o "Product Owner" adversário
             </li>
+            <li>
+              A captura acontece quando uma peça move-se para a casa ocupada por
+              uma peça adversária
+            </li>
+            <li>
+              Após um movimento, um destaque visual aparece na posição anterior
+              e na nova posição da peça
+            </li>
+            <li>O destaque visual desaparece gradualmente em 3 segundos</li>
           </ul>
+        </div>
+
+        <div className="p-6 bg-gray-800 rounded-lg">
+          <h2 className="text-2xl font-bold mb-4">
+            Como Capturar o Product Owner
+          </h2>
+          <p className="mb-4">
+            Para vencer o jogo, você precisa capturar o Product Owner
+            adversário. Isso pode ser feito de algumas maneiras:
+          </p>
+          <ul className="list-disc pl-6 mb-4">
+            <li>
+              <strong>Com o Developer:</strong> O Developer pode mover-se até 3
+              casas em qualquer direção. Se o Product Owner adversário estiver
+              dentro desse alcance e não houver peças no caminho, o Developer
+              pode capturá-lo movendo-se sobre ele.
+            </li>
+            <li>
+              <strong>Com o Designer:</strong> O Designer move-se em "L" (como
+              um cavalo) e pode pular sobre peças no caminho. Se o Product Owner
+              adversário estiver em uma posição alcançável pelo movimento em
+              "L", o Designer pode capturá-lo.
+            </li>
+            <li>
+              <strong>Com o seu próprio Product Owner:</strong> Embora seja uma
+              estratégia arriscada, seu Product Owner também pode capturar o
+              Product Owner adversário se estiver adjacente a ele.
+            </li>
+          </ul>
+          <p>
+            Lembre-se: proteger seu Product Owner é tão importante quanto tentar
+            capturar o adversário. Desenvolva estratégias para manter seu
+            Product Owner seguro enquanto busca oportunidades para capturar o
+            Product Owner adversário.
+          </p>
         </div>
       </div>
     </div>

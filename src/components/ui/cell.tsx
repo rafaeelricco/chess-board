@@ -3,6 +3,7 @@ import React from "react";
 interface CellProps {
   isDark: boolean;
   isActive: boolean;
+  isLastMove?: boolean;
   className?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
@@ -12,6 +13,7 @@ interface CellProps {
 const Cell: React.FC<CellProps> = ({
   isDark,
   isActive,
+  isLastMove,
   onClick,
   children,
   className = "",
@@ -19,8 +21,10 @@ const Cell: React.FC<CellProps> = ({
 }) => {
   const renderSvgBackground = () => {
     if (isDark) {
+      if (isLastMove) return <DarkLastMoveSvg />;
       return isActive ? <DarkActiveSvg /> : <DarkActiveOffSvg />;
     } else {
+      if (isLastMove) return <LightLastMoveSvg />;
       return isActive ? <LightActiveSvg /> : <LightActiveOffSvg />;
     }
   };
@@ -120,6 +124,47 @@ const DarkActiveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
   );
 };
 
+const DarkLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  className,
+  ...props
+}) => {
+  return (
+    <svg
+      viewBox="0 0 72 72"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`absolute inset-0 ${className || ""}`}
+      {...props}
+    >
+      <g clipPath="url(#clipDarkLastMove)">
+        <path fill="url(#darkLastMoveGradient)" d="M0 0H72V72H0z" />
+        <path
+          opacity={0.6}
+          fill="#4CAF50"
+          fillOpacity={0.25}
+          d="M0 0H72V72H0z"
+        />
+      </g>
+      <defs>
+        <linearGradient
+          id="darkLastMoveGradient"
+          x1={0}
+          y1={0}
+          x2={36}
+          y2={72}
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#FAFAFA" stopOpacity={0.15} />
+          <stop offset={1} stopColor="#fff" stopOpacity={0.05} />
+        </linearGradient>
+        <clipPath id="clipDarkLastMove">
+          <path fill="#fff" d="M0 0H72V72H0z" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
 const LightActiveOffSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
   className,
   ...props
@@ -192,6 +237,51 @@ const LightActiveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
           <stop offset={1} stopColor="#fff" stopOpacity={0.3} />
         </linearGradient>
         <clipPath id="clipLightActive">
+          <path fill="#fff" d="M0 0H72V72H0z" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+const LightLastMoveSvg: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  className,
+  ...props
+}) => {
+  return (
+    <svg
+      viewBox="0 0 72 72"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`absolute inset-0 ${className || ""}`}
+      {...props}
+    >
+      <g clipPath="url(#clipLightLastMove)">
+        <path
+          fill="url(#lightLastMoveGradient)"
+          fillOpacity={0.5}
+          d="M0 0H72V72H0z"
+        />
+        <path
+          opacity={0.6}
+          fill="#4CAF50"
+          fillOpacity={0.3}
+          d="M0 0H72V72H0z"
+        />
+      </g>
+      <defs>
+        <linearGradient
+          id="lightLastMoveGradient"
+          x1={0}
+          y1={0}
+          x2={36}
+          y2={72}
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#FAFAFA" stopOpacity={0.6} />
+          <stop offset={1} stopColor="#fff" stopOpacity={0.3} />
+        </linearGradient>
+        <clipPath id="clipLightLastMove">
           <path fill="#fff" d="M0 0H72V72H0z" />
         </clipPath>
       </defs>

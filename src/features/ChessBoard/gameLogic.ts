@@ -54,7 +54,7 @@ export const getPossibleMoves = (
 
   switch (piece.type) {
     case "developer":
-      // Developer pode pular até 3 casas em qualquer direção
+      // Developer pode pular até 3 casas por turno
       const directions = [
         [-1, 0],
         [1, 0],
@@ -86,8 +86,13 @@ export const getPossibleMoves = (
             break;
           }
 
-          // Não pode pular para casas ocupadas
-          if (targetCell.piece) break;
+          // Não pode pular para casas ocupadas pela mesma cor, mas pode capturar adversários
+          if (targetCell.piece) {
+            if (targetCell.piece.color !== piece.color) {
+              possibleMoves.push({ row: newRow, col: newCol });
+            }
+            break;
+          }
 
           possibleMoves.push({ row: newRow, col: newCol });
         }
@@ -156,6 +161,26 @@ export const getPossibleMoves = (
   return possibleMoves;
 };
 
+// Função para visualizar animação de movimento após o movimento
+export const highlightLastMove = (
+  board: Board,
+  from: Position,
+  to: Position
+): Board => {
+  const newBoard = JSON.parse(JSON.stringify(board)) as Board;
+
+  // Marcar a célula de origem e destino como destacadas
+  if (isValidPosition(from, newBoard.length, newBoard[0].length)) {
+    newBoard[from.row][from.col].lastMoveHighlight = true;
+  }
+
+  if (isValidPosition(to, newBoard.length, newBoard[0].length)) {
+    newBoard[to.row][to.col].lastMoveHighlight = true;
+  }
+
+  return newBoard;
+};
+
 export const movePiece = (
   board: Board,
   from: Position,
@@ -171,7 +196,23 @@ export const movePiece = (
   toCell.piece = fromCell.piece;
   fromCell.piece = null;
 
+  // Adicionar destaque para o último movimento
+  newBoard[from.row][from.col].lastMoveHighlight = true;
+  newBoard[to.row][to.col].lastMoveHighlight = true;
+
   return { newBoard, capturedPiece };
+};
+
+export const clearHighlights = (board: Board): Board => {
+  const newBoard = JSON.parse(JSON.stringify(board)) as Board;
+
+  for (let row = 0; row < newBoard.length; row++) {
+    for (let col = 0; col < newBoard[0].length; col++) {
+      newBoard[row][col].lastMoveHighlight = false;
+    }
+  }
+
+  return newBoard;
 };
 
 export const checkWinner = (board: Board): PieceColor | null => {

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChessBoard } from "@/features/ChessBoard/ChessBoard";
 import {
   checkWinner,
+  clearHighlights,
   getPossibleMoves,
   initializeGame,
   movePiece,
@@ -28,7 +29,22 @@ export default function Home() {
     possibleMoves: [],
     gameStarted: false,
     winner: null,
+    lastMove: null,
   });
+
+  // Limpar destaques depois de 3 segundos
+  React.useEffect(() => {
+    if (gameState.lastMove) {
+      const timer = setTimeout(() => {
+        setGameState((prev) => ({
+          ...prev,
+          board: clearHighlights(prev.board),
+        }));
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [gameState.lastMove]);
 
   const handleApplyDimensions = () => {
     const numRows = parseInt(inputRows, 10);
@@ -57,6 +73,7 @@ export default function Home() {
       possibleMoves: [],
       gameStarted: false,
       winner: null,
+      lastMove: null,
     });
   };
 
@@ -69,6 +86,7 @@ export default function Home() {
       possibleMoves: [],
       gameStarted: true,
       winner: null,
+      lastMove: null,
     }));
   };
 
@@ -111,6 +129,7 @@ export default function Home() {
       selectedPiece: null,
       possibleMoves: [],
       winner,
+      lastMove: { from, to },
     }));
   };
 
