@@ -16,7 +16,8 @@ import {
 import { GameState, Position } from "@/features/ChessBoard/types";
 import { Check } from "lucide-react";
 
-const TARGET_CELL_SIZE = 96; // Define o tamanho desejado para cada célula
+const TARGET_CELL_SIZE = 80; // Define o tamanho desejado para cada célula
+const MAX_BOARD_DIMENSION = 800; // Define a dimensão máxima para o tabuleiro (largura/altura)
 
 export default function Home() {
   const [rows, setRows] = React.useState(8);
@@ -140,8 +141,18 @@ export default function Home() {
     }));
   };
 
-  const boardDisplayWidth = cols * TARGET_CELL_SIZE;
-  const boardDisplayHeight = rows * TARGET_CELL_SIZE;
+  // Calcula o tamanho da célula dinamicamente para caber no MAX_BOARD_DIMENSION
+  let cellSize = TARGET_CELL_SIZE;
+  if (cols * cellSize > MAX_BOARD_DIMENSION) {
+    cellSize = MAX_BOARD_DIMENSION / cols;
+  }
+  // Recalcula baseado nas linhas, caso a restrição de altura seja mais forte ou após ajuste da largura
+  if (rows * cellSize > MAX_BOARD_DIMENSION) {
+    cellSize = Math.min(cellSize, MAX_BOARD_DIMENSION / rows);
+  }
+
+  const boardDisplayWidth = cols * cellSize;
+  const boardDisplayHeight = rows * cellSize;
 
   return (
     <React.Fragment>
