@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import * as React from "react";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -141,6 +142,26 @@ export default function Home() {
     }));
   };
 
+  const handleGoBackToHome = () => {
+    setGameState((prev) => ({
+      ...prev,
+      gameStarted: false,
+      winner: null,
+    }));
+  };
+
+  const handleStartNewMatch = () => {
+    setGameState({
+      board: initializeGame(rows, cols),
+      currentTurn: "white",
+      selectedPiece: null,
+      possibleMoves: [],
+      gameStarted: true,
+      winner: null,
+      lastMove: null,
+    });
+  };
+
   // Calcula o tamanho da célula dinamicamente para caber no MAX_BOARD_DIMENSION
   let cellSize = TARGET_CELL_SIZE;
   if (cols * cellSize > MAX_BOARD_DIMENSION) {
@@ -164,32 +185,58 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-        <ChessBoard
-          rows={rows}
-          cols={cols}
-          boardWidth={boardDisplayWidth}
-          boardHeight={boardDisplayHeight}
-          board={gameState.board}
-          gameStarted={gameState.gameStarted}
-          currentTurn={gameState.currentTurn}
-          onMove={handleMove}
-          selectedPiece={gameState.selectedPiece}
-          onSelectPiece={handleSelectPiece}
-          possibleMoves={gameState.possibleMoves}
-        />
-        <div className="flex flex-col items-center">
-          {gameState.winner && (
-            <div className="mb-4 p-3 bg-green-800 bg-opacity-80 text-white rounded-lg shadow-lg">
-              Vencedor: {gameState.winner === "white" ? "Brancas" : "Pretas"}!
+
+        {!gameState.winner ? (
+          <ChessBoard
+            rows={rows}
+            cols={cols}
+            boardWidth={boardDisplayWidth}
+            boardHeight={boardDisplayHeight}
+            board={gameState.board}
+            gameStarted={gameState.gameStarted}
+            currentTurn={gameState.currentTurn}
+            onMove={handleMove}
+            selectedPiece={gameState.selectedPiece}
+            onSelectPiece={handleSelectPiece}
+            possibleMoves={gameState.possibleMoves}
+          />
+        ) : (
+          <div className="bg-[#1e1f2563] backdrop-blur-sm border border-[#5a5a5e77] rounded-lg shadow-xl flex flex-col items-center min-h-10 max-w-md min-w-[534px] py-8 gap-8">
+            <Image
+              src="/images/icon.png"
+              alt="Victory Star"
+              width={54}
+              height={54}
+            />
+            <h2 className="text-white text-2xl font-bold uppercase tracking-wider my-8">
+              {gameState.winner === "white" ? "WHITE" : "BLACK"} PIECES WON!
+            </h2>
+            <div className="w-full h-px bg-gray-700 my-8"></div>
+            <div className="flex flex-col justify-center items-center md:flex-row gap-4 w-full px-8">
+              <button
+                onClick={handleGoBackToHome}
+                className="flex-1 py-2 px-4 bg-transparent border border-gray-600 text-white rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                Go Back To Home
+              </button>
+              <button
+                onClick={handleStartNewMatch}
+                className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Start New Match
+              </button>
             </div>
-          )}
+          </div>
+        )}
+
+        <div className="flex flex-col items-center">
           {gameState.gameStarted && !gameState.winner && (
             <div className="mb-4 p-3 bg-blue-800 bg-opacity-80 text-white rounded-lg shadow-lg">
               Vez das peças:{" "}
               {gameState.currentTurn === "white" ? "Brancas" : "Pretas"}
             </div>
           )}
-          {!gameState.gameStarted ? (
+          {!gameState.gameStarted && !gameState.winner ? (
             <div className="flex justify-between items-center w-[658px]">
               <div className="bg-transparent backdrop-blur-sm border border-[#5A5A5E] rounded-lg shadow-xl flex flex-col sm:flex-row items-center min-h-10">
                 <div className="flex items-center gap-4">
@@ -267,30 +314,11 @@ export default function Home() {
                   Reiniciar
                 </Button>
               )}
-              <Button
-                variant="outline"
-                onClick={() => {
-                  if (gameState.winner) {
-                    setGameState({
-                      board: initializeGame(rows, cols),
-                      currentTurn: "white",
-                      selectedPiece: null,
-                      possibleMoves: [],
-                      gameStarted: true,
-                      winner: null,
-                      lastMove: null,
-                    });
-                  } else {
-                    setGameState((prev) => ({
-                      ...prev,
-                      gameStarted: false,
-                      winner: null,
-                    }));
-                  }
-                }}
-              >
-                {gameState.winner ? "Novo Jogo" : "Voltar"}
-              </Button>
+              {!gameState.winner && (
+                <Button variant="outline" onClick={handleGoBackToHome}>
+                  Voltar
+                </Button>
+              )}
             </div>
           )}
         </div>
