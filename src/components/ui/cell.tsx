@@ -13,18 +13,55 @@ interface CellProps {
 const Cell: React.FC<CellProps> = ({
   isDark,
   isActive,
-  isLastMove,
+  isLastMove: propIsLastMove,
   onClick,
   children,
   className = "",
   style,
 }) => {
+  const [internalShowLastMove, setInternalShowLastMove] = React.useState(
+    propIsLastMove || false
+  );
+  const [isFadingOut, setIsFadingOut] = React.useState(false);
+
+  React.useEffect(() => {
+    if (propIsLastMove) {
+      setInternalShowLastMove(true);
+      setIsFadingOut(false);
+    } else {
+      if (internalShowLastMove && !isFadingOut) {
+        setIsFadingOut(true);
+        const timer = setTimeout(() => {
+          setInternalShowLastMove(false);
+          setIsFadingOut(false);
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [propIsLastMove, internalShowLastMove, isFadingOut]);
+
   const renderSvgBackground = () => {
     if (isDark) {
-      if (isLastMove) return <DarkLastMoveSvg />;
+      if (internalShowLastMove) {
+        return (
+          <DarkLastMoveSvg
+            className={`transition-opacity duration-500 ease-out ${
+              isFadingOut ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        );
+      }
       return isActive ? <DarkActiveSvg /> : <DarkActiveOffSvg />;
     } else {
-      if (isLastMove) return <LightLastMoveSvg />;
+      if (internalShowLastMove) {
+        return (
+          <LightLastMoveSvg
+            className={`transition-opacity duration-500 ease-out ${
+              isFadingOut ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        );
+      }
       return isActive ? <LightActiveSvg /> : <LightActiveOffSvg />;
     }
   };
