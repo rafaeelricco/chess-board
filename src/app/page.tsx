@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { ChessBoard } from "@/features/ChessBoard/ChessBoard";
 
 export default function Home() {
@@ -83,6 +84,7 @@ export default function Home() {
               {error}
             </p>
           )}
+          <Button variant="outline">Play</Button>
         </div>
       </div>
     </React.Fragment>
