@@ -53,7 +53,7 @@ export default function Home() {
             onStartNewMatch={handleStartNewMatch}
           />
         )}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col gap-4 items-center">
           <GameStatus
             currentTurn={gameState.currentTurn}
             gameStarted={gameState.gameStarted}
