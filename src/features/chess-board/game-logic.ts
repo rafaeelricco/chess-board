@@ -1,4 +1,9 @@
-import { Board, Piece, PieceColor, Position } from "./types";
+import {
+  Board,
+  Piece,
+  PieceColor,
+  Position,
+} from "@/features/chess-board/types";
 
 export const createEmptyBoard = (rows: number, cols: number): Board => {
   const board: Board = [];

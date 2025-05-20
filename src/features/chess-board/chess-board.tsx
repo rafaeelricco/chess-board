@@ -2,7 +2,8 @@ import * as React from "react";
 
 import Cell from "@/components/ui/cell";
 import Piece from "@/components/ui/piece";
-import { Board, Position } from "./types";
+
+import { Board, Position } from "@/features/chess-board/types";
 
 interface ChessBoardProps {
   rows: number;

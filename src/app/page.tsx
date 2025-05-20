@@ -6,15 +6,15 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ChessBoard } from "@/features/ChessBoard/ChessBoard";
+import { ChessBoard } from "@/features/chess-board/chess-board";
 import {
   checkWinner,
   clearHighlights,
   getPossibleMoves,
   initializeGame,
   movePiece,
-} from "@/features/ChessBoard/gameLogic";
-import { GameState, Position } from "@/features/ChessBoard/types";
+} from "@/features/chess-board/game-logic";
+import { GameState, Position } from "@/features/chess-board/types";
 import { Check } from "lucide-react";
 
 const TARGET_CELL_SIZE = 80;

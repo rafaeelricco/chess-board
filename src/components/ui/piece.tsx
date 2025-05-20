@@ -1,4 +1,5 @@
-import { Piece as PieceType } from "@/features/ChessBoard/types";
+import { Piece as PieceType } from "@/features/chess-board/types";
+
 import Image from "next/image";
 import React from "react";
 
