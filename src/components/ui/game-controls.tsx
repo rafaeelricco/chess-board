@@ -32,15 +32,15 @@ export function GameControls({
       <Button
         variant="outline"
         onClick={() => {
-          if (confirm("Tem certeza que deseja reiniciar o jogo?")) {
+          if (confirm("Are you sure you want to restart the game?")) {
             onRestart();
           }
         }}
       >
-        Reiniciar
+        Restart
       </Button>
       <Button variant="outline" onClick={onGoBack}>
-        Voltar
+        Back
       </Button>
     </div>
   );

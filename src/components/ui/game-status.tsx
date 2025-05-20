@@ -13,7 +13,7 @@ export function GameStatus({
 
   return (
     <div className="mb-4 p-3 bg-blue-800 bg-opacity-80 text-white rounded-lg shadow-lg">
-      Vez das peças: {currentTurn === "white" ? "Brancas" : "Pretas"}
+      Current turn: {currentTurn === "white" ? "White" : "Black"}
     </div>
   );
 }
