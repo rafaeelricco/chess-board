@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import React from "react";
 
 import { BoardDimensionsControl } from "@/components/ui/board-dimensions-control";
-import { Button } from "@/components/ui/button";
 import { GameControls } from "@/components/ui/game-controls";
 import { GameStatus } from "@/components/ui/game-status";
 import { WinnerModal } from "@/components/ui/winner-modal";
@@ -34,14 +32,6 @@ export default function Home() {
   return (
     <React.Fragment>
       <div className="grid gap-4 place-items-center h-screen content-center">
-        <div className="absolute top-4 right-4">
-          <Link href="/rules">
-            <Button variant="ghost" className="text-white hover:text-blue-300">
-              Regras do Jogo
-            </Button>
-          </Link>
-        </div>
-
         {!gameState.winner ? (
           <ChessBoard
             rows={rows}
@@ -63,7 +53,6 @@ export default function Home() {
             onStartNewMatch={handleStartNewMatch}
           />
         )}
-
         <div className="flex flex-col items-center">
           <GameStatus
             currentTurn={gameState.currentTurn}
