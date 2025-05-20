@@ -19,15 +19,13 @@ export const createEmptyBoard = (rows: number, cols: number): Board => {
 export const initializeGame = (rows: number, cols: number): Board => {
   const board = createEmptyBoard(rows, cols);
 
-  // Posicionar peças pretas no canto superior direito
-  board[0][cols - 1].piece = { type: "product-owner", color: "black" }; // Product Owner preto
-  board[0][cols - 2].piece = { type: "developer", color: "black" }; // Developer preto
-  board[0][cols - 3].piece = { type: "designer", color: "black" }; // Designer preto
+  board[0][cols - 1].piece = { type: "product-owner", color: "black" };
+  board[0][cols - 2].piece = { type: "developer", color: "black" };
+  board[0][cols - 3].piece = { type: "designer", color: "black" };
 
-  // Posicionar peças brancas no canto inferior esquerdo
-  board[rows - 1][0].piece = { type: "product-owner", color: "white" }; // Product Owner branco
-  board[rows - 1][1].piece = { type: "developer", color: "white" }; // Developer branco
-  board[rows - 1][2].piece = { type: "designer", color: "white" }; // Designer branco
+  board[rows - 1][0].piece = { type: "product-owner", color: "white" };
+  board[rows - 1][1].piece = { type: "developer", color: "white" };
+  board[rows - 1][2].piece = { type: "designer", color: "white" };
 
   return board;
 };
@@ -54,16 +52,15 @@ export const getPossibleMoves = (
 
   switch (piece.type) {
     case "developer":
-      // Developer pode pular até 3 casas por turno
       const directions = [
         [-1, 0],
         [1, 0],
         [0, -1],
-        [0, 1], // Vertical e Horizontal
+        [0, 1],
         [-1, -1],
         [-1, 1],
         [1, -1],
-        [1, 1], // Diagonal
+        [1, 1],
       ];
 
       for (const [dx, dy] of directions) {
@@ -76,7 +73,6 @@ export const getPossibleMoves = (
 
           const targetCell = board[newRow][newCol];
 
-          // Se encontrou uma peça no caminho
           if (
             steps > 1 &&
             board[position.row + dx * (steps - 1)][
@@ -86,7 +82,6 @@ export const getPossibleMoves = (
             break;
           }
 
-          // Não pode pular para casas ocupadas pela mesma cor, mas pode capturar adversários
           if (targetCell.piece) {
             if (targetCell.piece.color !== piece.color) {
               possibleMoves.push({ row: newRow, col: newCol });
@@ -100,7 +95,6 @@ export const getPossibleMoves = (
       break;
 
     case "designer":
-      // Designer move-se em formato de "L" (como o cavalo)
       const designerMoves = [
         [-2, -1],
         [-2, 1],
@@ -121,7 +115,6 @@ export const getPossibleMoves = (
 
         const targetCell = board[newRow][newCol];
 
-        // Pode se mover para casas vazias ou capturar peças adversárias
         if (!targetCell.piece || targetCell.piece.color !== piece.color) {
           possibleMoves.push({ row: newRow, col: newCol });
         }
@@ -129,16 +122,15 @@ export const getPossibleMoves = (
       break;
 
     case "product-owner":
-      // Product Owner move-se uma casa em qualquer direção
       const poDirections = [
         [-1, 0],
         [1, 0],
         [0, -1],
-        [0, 1], // Vertical e Horizontal
+        [0, 1],
         [-1, -1],
         [-1, 1],
         [1, -1],
-        [1, 1], // Diagonal
+        [1, 1],
       ];
 
       for (const [dx, dy] of poDirections) {
@@ -150,7 +142,6 @@ export const getPossibleMoves = (
 
         const targetCell = board[newRow][newCol];
 
-        // Pode se mover para casas vazias ou capturar peças adversárias
         if (!targetCell.piece || targetCell.piece.color !== piece.color) {
           possibleMoves.push({ row: newRow, col: newCol });
         }
@@ -161,7 +152,6 @@ export const getPossibleMoves = (
   return possibleMoves;
 };
 
-// Função para visualizar animação de movimento após o movimento
 export const highlightLastMove = (
   board: Board,
   from: Position,
@@ -169,7 +159,6 @@ export const highlightLastMove = (
 ): Board => {
   const newBoard = JSON.parse(JSON.stringify(board)) as Board;
 
-  // Marcar a célula de origem e destino como destacadas
   if (isValidPosition(from, newBoard.length, newBoard[0].length)) {
     newBoard[from.row][from.col].lastMoveHighlight = true;
   }
@@ -192,11 +181,9 @@ export const movePiece = (
 
   const capturedPiece = toCell.piece;
 
-  // Mover a peça
   toCell.piece = fromCell.piece;
   fromCell.piece = null;
 
-  // Adicionar destaque para o último movimento
   newBoard[from.row][from.col].lastMoveHighlight = true;
   newBoard[to.row][to.col].lastMoveHighlight = true;
 

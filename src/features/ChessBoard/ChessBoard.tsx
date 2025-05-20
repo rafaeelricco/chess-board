@@ -42,9 +42,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
     const position = { row: rowIndex, col: colIndex };
     const cell = board[rowIndex][colIndex];
 
-    // Se já tem uma peça selecionada
     if (selectedPiece) {
-      // Verificar se o clique foi em uma das possíveis jogadas
       const isValidMove = possibleMoves.some(
         (move) => move.row === rowIndex && move.col === colIndex
       );
@@ -53,14 +51,11 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
         onMove(selectedPiece, position);
         onSelectPiece(null);
       } else if (cell.piece && cell.piece.color === currentTurn) {
-        // Se clicou em outra peça da mesma cor, seleciona ela
         onSelectPiece(position);
       } else {
-        // Se clicou em um lugar inválido, deseleciona
         onSelectPiece(null);
       }
     } else if (cell.piece && cell.piece.color === currentTurn) {
-      // Selecionar uma peça
       onSelectPiece(position);
     }
   };

@@ -17,8 +17,8 @@ import {
 import { GameState, Position } from "@/features/ChessBoard/types";
 import { Check } from "lucide-react";
 
-const TARGET_CELL_SIZE = 80; // Define o tamanho desejado para cada célula
-const MAX_BOARD_DIMENSION = 800; // Define a dimensão máxima para o tabuleiro (largura/altura)
+const TARGET_CELL_SIZE = 80;
+const MAX_BOARD_DIMENSION = 800;
 
 export default function Home() {
   const [rows, setRows] = React.useState(8);
@@ -27,7 +27,6 @@ export default function Home() {
   const [inputCols, setInputCols] = React.useState("8");
   const [error, setError] = React.useState<string | null>(null);
 
-  // Estado do jogo
   const [gameState, setGameState] = React.useState<GameState>({
     board: initializeGame(8, 8),
     currentTurn: "white",
@@ -38,63 +37,19 @@ export default function Home() {
     lastMove: null,
   });
 
-  // Limpar destaques depois de 3 segundos
   React.useEffect(() => {
     if (gameState.lastMove) {
-      // Timer mais longo para dar um sinal visual mais claro
       const timer = setTimeout(() => {
-        // Aplicar limpeza do destaque
         setGameState((prev) => ({
           ...prev,
           board: clearHighlights(prev.board),
           lastMove: null,
         }));
-      }, 3000); // Mantém 3 segundos conforme requisitos
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [gameState.lastMove]);
-
-  // Selecionar automaticamente uma peça quando o turno mudar
-  React.useEffect(() => {
-    if (gameState.gameStarted && !gameState.winner) {
-      // Seleciona uma peça automaticamente quando o turno muda
-      selectFirstAvailablePiece();
-    }
-  }, [gameState.currentTurn, gameState.gameStarted, gameState.winner]);
-
-  // Função que seleciona a primeira peça disponível do turno atual
-  const selectFirstAvailablePiece = () => {
-    if (!gameState.gameStarted || gameState.winner) return;
-
-    const currentTurn = gameState.currentTurn;
-
-    // Procura a primeira peça disponível da cor do turno atual
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const cell = gameState.board[row][col];
-        if (cell.piece && cell.piece.color === currentTurn) {
-          const position = { row, col };
-          const possibleMoves = getPossibleMoves(
-            gameState.board,
-            position,
-            rows,
-            cols
-          );
-
-          // Só seleciona se a peça tiver movimentos possíveis
-          if (possibleMoves.length > 0) {
-            setGameState((prev) => ({
-              ...prev,
-              selectedPiece: position,
-              possibleMoves,
-            }));
-            return;
-          }
-        }
-      }
-    }
-  };
 
   const handleApplyDimensions = () => {
     const numRows = parseInt(inputRows, 10);
@@ -115,7 +70,6 @@ export default function Home() {
     setRows(numRows);
     setCols(numCols);
 
-    // Resetar o jogo com as novas dimensões
     setGameState({
       board: initializeGame(numRows, numCols),
       currentTurn: "white",
@@ -203,12 +157,10 @@ export default function Home() {
     });
   };
 
-  // Calcula o tamanho da célula dinamicamente para caber no MAX_BOARD_DIMENSION
   let cellSize = TARGET_CELL_SIZE;
   if (cols * cellSize > MAX_BOARD_DIMENSION) {
     cellSize = MAX_BOARD_DIMENSION / cols;
   }
-  // Recalcula baseado nas linhas, caso a restrição de altura seja mais forte ou após ajuste da largura
   if (rows * cellSize > MAX_BOARD_DIMENSION) {
     cellSize = Math.min(cellSize, MAX_BOARD_DIMENSION / rows);
   }
@@ -271,6 +223,12 @@ export default function Home() {
         )}
 
         <div className="flex flex-col items-center">
+          {gameState.gameStarted && !gameState.winner && (
+            <div className="mb-4 p-3 bg-blue-800 bg-opacity-80 text-white rounded-lg shadow-lg">
+              Vez das peças:{" "}
+              {gameState.currentTurn === "white" ? "Brancas" : "Pretas"}
+            </div>
+          )}
           {!gameState.gameStarted && !gameState.winner ? (
             <div className="flex justify-between items-center w-[658px]">
               <div className="bg-transparent backdrop-blur-sm border border-[#5A5A5E] rounded-lg shadow-xl flex flex-col sm:flex-row items-center min-h-10">
